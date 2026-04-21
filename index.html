@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bing Rewards Bot Portal</title>
+    <style>
+        body {
+            background-color: #0a0a0a; /* Tema Gelap */
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Tulisan Biru Mengkilap (Glow) */
+        h1 {
+            color: #00d2ff;
+            text-shadow: 0 0 10px #00d2ff, 0 0 20px #00d2ff, 0 0 30px #00d2ff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Teks Bing Rewards Warna-Warni Gerak */
+        .bing-rewards {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 3s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        @keyframes rainbow {
+            to { background-position: 200% auto; }
+        }
+
+        /* Tombol Sakti */
+        .btn-bot {
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.7);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none; /* Agar tidak ada garis bawah link */
+        }
+
+        .btn-bot:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 1);
+        }
+        
+        /* Instruksi Sederhana */
+        .instr {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 20px;
+            text-align: center;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>BOT PORTAL</h1>
+    <div class="bing-rewards">BING REWARDS</div>
+
+    <a href="javascript:(function(){
+        const keywords = ['berita terkini', 'cuaca hari ini', 'teknologi 2026', 'tips kesehatan', 'kuliner enak', 'wisata alam', 'info gadget', 'bursa saham'];
+        let count = 0;
+        const target = 10; // Jumlah search
+
+        function doSearch() {
+            if (count < target) {
+                let query = keywords[Math.floor(Math.random() * keywords.length)];
+                window.location.href = 'https://www.bing.com/search?q=' + encodeURIComponent(query);
+                count++;
+                
+                // Jeda acak antara 3-7 detik
+                let delay = Math.floor(Math.random() * (7000 - 3000) + 3000);
+                setTimeout(doSearch, delay);
+            } else {
+                alert('Misi selesai!');
+            }
+        }
+        
+        // Mulai pencarian
+        doSearch();
+    })();" class="btn-bot">JALANKAN MISI</a>
+
+    <div class="instr">
+        Instruksi: <br>
+        1. Login ke akun Microsoft di browser. <br>
+        2. Klik tombol di atas, bot akan berjalan otomatis di tab ini.
+    </div>
+
+</body>
+</html>
