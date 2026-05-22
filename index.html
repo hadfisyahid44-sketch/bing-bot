@@ -2,133 +2,279 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HADFI PRO - Full System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HADFI PRO - Real Injector</title>
     <style>
-        :root { --bg: #050814; --neon-cyan: #00f3ff; --neon-purple: #bd00ff; --neon-green: #39ff14; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
-        body { background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        /* --- DESIGN SYSTEM NEON FUTURISTIK --- */
+        :root {
+            --bg-color: #050814;
+            --card-bg: #0b1126;
+            --neon-cyan: #00f3ff;
+            --neon-green: #39ff14;
+            --neon-purple: #bd00ff;
+            --text-muted: #4b5563;
+        }
 
-        /* NEON ROTATING BORDER */
-        .wrapper {
-            position: relative; width: 100%; max-width: 400px;
-            background: #0b1126; padding: 3px; border-radius: 20px;
-            overflow: hidden; 
-        }
-        .wrapper::before {
-            content: ''; position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: conic-gradient(transparent, var(--neon-cyan), transparent 30%);
-            animation: rotate 4s linear infinite;
-        }
-        .content {
-            position: relative; z-index: 1; background: #0b1126;
-            padding: 30px; border-radius: 18px; color: white;
-        }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-
-        /* UI ELEMENTS */
-        input { width: 100%; padding: 12px; margin: 8px 0; background: #050814; border: 1px solid var(--neon-cyan); color: white; border-radius: 8px; }
-        button { width: 100%; padding: 15px; background: var(--neon-cyan); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 0 10px var(--neon-cyan); }
-        .terminal { background: #000; color: var(--neon-green); padding: 10px; height: 120px; overflow-y: auto; font-size: 0.7rem; margin-top: 15px; border: 1px solid var(--neon-green); border-radius: 5px; }
-        .hidden { display: none; }
-        .link { font-size: 0.7rem; color: #888; text-align: center; margin-top: 10px; cursor: pointer; text-decoration: underline; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
+        body { background-color: var(--bg-color); color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .wrapper { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 24px; padding: 30px 25px; border: 1px solid rgba(0, 243, 255, 0.15); box-shadow: 0 0 35px rgba(0, 243, 255, 0.05), inset 0 0 20px rgba(0, 0, 0, 0.6); }
+        .bing-logo { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; gap: 10px; }
+        .bing-icon { width: 25px; height: 25px; background: linear-gradient(135deg, #0078d4, var(--neon-cyan)); clip-path: polygon(0% 0%, 75% 0%, 100% 30%, 40% 65%, 100% 65%, 75% 100%, 0% 100%, 30% 50%); filter: drop-shadow(0 0 5px var(--neon-cyan)); }
+        header h1 { color: var(--neon-cyan); font-size: 1.5rem; text-align: center; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.6); }
+        header p { color: var(--text-muted); font-size: 0.75rem; text-align: center; margin: 5px 0 25px 0; }
+        .card-module { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 15px; margin-bottom: 15px; }
+        .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 22px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #111827; border-radius: 22px; border: 1px solid rgba(255,255,255,0.08); transition: 0.3s; }
+        .slider::before { content: ""; position: absolute; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: #4b5563; border-radius: 50%; transition: 0.3s; }
+        input:checked + .slider { border-color: var(--neon-green); }
+        input:checked + .slider::before { background-color: var(--neon-green); transform: translateX(22px); box-shadow: 0 0 8px var(--neon-green); }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 10px; }
+        .num-input { background: #111827; border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 5px; width: 65px; text-align: center; border-radius: 6px; outline: none; }
+        .terminal-box { background: #02040a; border: 1px solid rgba(0, 243, 255, 0.1); border-radius: 12px; padding: 12px; height: 110px; overflow-y: auto; font-size: 0.7rem; color: #34d399; margin-bottom: 15px; }
+        .btn { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: 0.2s; letter-spacing: 1px; }
+        .btn-action { background: var(--neon-green); color: #000; box-shadow: 0 0 15px rgba(57, 255, 20, 0.3); margin-bottom: 8px; }
+        .btn-reboot { background: transparent; border: 1px solid #ef4444; color: #ef4444; }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <div class="content">
-        <h2 style="color:var(--neon-cyan); text-align:center; margin-bottom:15px;">HADFI PRO</h2>
-        
-        <div id="loginScreen">
-            <input type="text" id="logUser" placeholder="Username">
-            <input type="password" id="logPass" placeholder="Password">
-            <button onclick="login()">LOGIN</button>
-            <div class="link" onclick="toggleAuth()">Belum punya akun? Daftar dulu.</div>
+    <div class="wrapper">
+        <div class="bing-logo">
+            <div class="bing-icon"></div>
+            <span style="font-weight: bold; font-size: 1rem; letter-spacing: 1px;">ACCESS BING REWARDS</span>
         </div>
 
-        <div id="regScreen" class="hidden">
-            <input type="text" id="regUser" placeholder="Buat Username">
-            <input type="password" id="regPass" placeholder="Buat Password">
-            <button onclick="register()">DAFTAR SEKARANG</button>
-            <div class="link" onclick="toggleAuth()">Sudah punya akun? Login.</div>
+        <header>
+            <h1>HADFI PRO v3</h1>
+            <p>Jangan Lupa Bersyukur</p>
+        </header>
+
+        <div class="card-module">
+            <div class="module-header">
+                <span style="font-size: 0.85rem; font-weight: bold;">MSN INJECTION</span>
+                <label class="switch">
+                    <input type="checkbox" id="msnToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <span style="color: #6b7280;">TARGET READ</span>
+                <div>
+                    <input type="number" class="num-input" id="msnTarget" value="10">
+                    <span style="color: var(--neon-green); margin-left: 5px;" id="msnProgress">0/10</span>
+                </div>
+            </div>
+            <div class="setting-row">
+                <span style="color: #6b7280;">DELAY (MIN/MAX)</span>
+                <div>
+                    <input type="number" class="num-input" id="msnMin" value="5" style="width:45px;">
+                    <input type="number" class="num-input" id="msnMax" value="10" style="width:45px;">
+                </div>
+            </div>
         </div>
 
-        <div id="botScreen" class="hidden">
-            <div class="terminal" id="log"></div>
-            <button onclick="gas()" style="background:var(--neon-green);">GAS KEUN</button>
-            <button onclick="resetSystem()" style="background:transparent; border:1px solid red; color:red;">RESET</button>
+        <div class="card-module">
+            <div class="module-header">
+                <span style="font-size: 0.85rem; font-weight: bold;">SEARCH INJECTION</span>
+                <label class="switch">
+                    <input type="checkbox" id="searchToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <span style="color: #6b7280;">TARGET QUERY</span>
+                <div>
+                    <input type="number" class="num-input" id="searchTarget" value="20">
+                    <span style="color: var(--neon-green); margin-left: 5px;" id="searchProgress">0/20</span>
+                </div>
+            </div>
+            <div class="setting-row">
+                <span style="color: #6b7280;">DELAY (MIN/MAX)</span>
+                <div>
+                    <input type="number" class="num-input" id="searchMin" value="7" style="width:45px;">
+                    <input type="number" class="num-input" id="searchMax" value="12" style="width:45px;">
+                </div>
+            </div>
         </div>
+
+        <div class="terminal-box" id="logConsole"></div>
+
+        <button class="btn btn-action" id="btnGas">GAS KEUN</button>
+        <button class="btn btn-reboot" id="btnReboot">REBOOT SYSTEM</button>
     </div>
-</div>
 
-<script>
-    const log = document.getElementById('log');
-    function print(t) { log.innerHTML += `> ${t}<br>`; log.scrollTop = log.scrollHeight; }
-
-    // --- AUTH LOGIC ---
-    function toggleAuth() {
-        document.getElementById('loginScreen').classList.toggle('hidden');
-        document.getElementById('regScreen').classList.toggle('hidden');
-    }
-
-    function register() {
-        let u = document.getElementById('regUser').value;
-        let p = document.getElementById('regPass').value;
-        let db = JSON.parse(localStorage.getItem('hadfi_users') || "[]");
-        db.push({u, p});
-        localStorage.setItem('hadfi_users', JSON.stringify(db));
-        print("Akun terdaftar! Silahkan login.");
-        toggleAuth();
-    }
-
-    function login() {
-        let u = document.getElementById('logUser').value;
-        let p = document.getElementById('logPass').value;
-        let db = JSON.parse(localStorage.getItem('hadfi_users') || "[]");
-        if(db.find(a => a.u == u && a.p == p)) {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('botScreen').classList.remove('hidden');
-            print("Login Sukses: " + u);
-        } else {
-            print("Login Gagal!");
-        }
-    }
-
-    // --- BOT ENGINE (AUTO-MSN & SEARCH) ---
-    function gas() {
-        localStorage.setItem('hadfi_run', 'true');
-        localStorage.setItem('hadfi_mode', 'msn');
-        window.location.href = "https://www.msn.com/id-id/berita";
-    }
-
-    if (localStorage.getItem('hadfi_run') === 'true') {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('botScreen').classList.remove('hidden');
+    <script>
+        const consoleEl = document.getElementById('logConsole');
+        const btnGas = document.getElementById('btnGas');
         
-        let mode = localStorage.getItem('hadfi_mode');
-        if (mode === 'msn') {
-            print("Mode MSN: Membaca...");
-            setTimeout(() => {
-                const links = document.querySelectorAll('a[href*="/news/"]');
-                if(links.length > 0) links[0].click();
-                else {
-                    localStorage.setItem('hadfi_mode', 'search');
-                    window.location.href = "https://www.bing.com/search?q=tren+teknologi+2026";
-                }
-            }, 5000);
-        } else if (mode === 'search') {
-            print("Mode Bing: Searching...");
-            setTimeout(() => {
-                window.location.href = "https://www.bing.com/search?q=info+terkini";
-            }, 5000);
-        }
-    }
+        // Kumpulan Keyword Acak Indonesia - Inggris
+        const triggerKeywords = ["manajemen kuliah", "tren teknologi 2026", "coding dashboard js", "anime streaming terbaik", "cloud computing gratis", "resep kopi susu", "berita bola hari ini", "harga elektronik terupdate"];
 
-    function resetSystem() {
-        localStorage.clear();
-        location.reload();
+        function printLog(text) {
+            const entry = document.createElement('div');
+            entry.style.marginBottom = '3px';
+            entry.innerHTML = `<span style="color:var(--neon-cyan)">></span> ${text}`;
+            consoleEl.appendChild(entry);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        // Ambil data state atau buat baru di LocalStorage jika belum ada
+        let botState = JSON.parse(localStorage.getItem('hadfi_bot_state')) || {
+            running: false,
+            currentMsn: 0,
+            currentSearch: 0,
+            activeMode: 'none' // 'msn', 'search', atau 'none'
+        };
+
+        // Fungsi menyimpan state terupdate
+        function saveState() {
+            localStorage.setItem('hadfi_bot_state', JSON.stringify(botState));
+        }
+
+        // Render data awal ke UI dari LocalStorage
+        document.getElementById('msnProgress').innerText = `${botState.currentMsn}/${document.getElementById('msnTarget').value}`;
+        document.getElementById('searchProgress').innerText = `${botState.currentSearch}/${document.getElementById('searchTarget').value}`;
+
+        if (botState.running) {
+            btnGas.innerText = "EXECUTING...";
+            btnGas.style.opacity = '0.6';
+        }
+
+        // Tembak Log Selamat Datang
+        printLog("Jangan Lupa Do'ain Hadfi...");
+        printLog("System Core v3 Ready.");
+
+        // Cek apakah bot harus melanjutkan tugas pasca redirect/reload halaman
+        if (botState.running) {
+            printLog("Melanjutkan rantai injeksi yang tertunda...");
+            setTimeout(executeEngineChain, 2000);
+        }
+
+        // Trigger Tombol GAS KEUN
+        btnGas.addEventListener('click', function() {
+            if (botState.running) return;
+
+            const msnOn = document.getElementById('msnToggle').checked;
+            const searchOn = document.getElementById('searchToggle').checked;
+
+            if (!msnOn && !searchOn) {
+                printLog("Pilih modul target terlebih dahulu!");
+                return;
+            }
+
+            botState.running = true;
+            this.innerText = "EXECUTING...";
+            this.style.opacity = '0.6';
+            
+            // Tentukan mulai dari mana
+            if (msnOn && botState.currentMsn < parseInt(document.getElementById('msnTarget').value)) {
+                botState.activeMode = 'msn';
+            } else if (searchOn && botState.currentSearch < parseInt(document.getElementById('searchTarget').value)) {
+                botState.activeMode = 'search';
+            }
+            
+            saveState();
+            executeEngineChain();
+        });
+
+        // Core Engine Alur Kerja Eksekusi Nyata
+        function executeEngineChain() {
+            if (!botState.running) return;
+
+            const msnOn = document.getElementById('msnToggle').checked;
+            const searchOn = document.getElementById('searchToggle').checked;
+            
+            const tarMsn = parseInt(document.getElementById('msnTarget').value);
+            const tarSrc = parseInt(document.getElementById('searchTarget').value);
+
+            // 1. Eksekusi Segmen MSN
+            if (botState.activeMode === 'msn') {
+                if (botState.currentMsn >= tarMsn || !msnOn) {
+                    printLog("Siklus MSN Selesai. Pindah ke Search.");
+                    botState.activeMode = 'search';
+                    saveState();
+                    executeEngineChain();
+                    return;
+                }
+
+                botState.currentMsn++;
+                saveState();
+                document.getElementById('msnProgress').innerText = `${botState.currentMsn}/${tarMsn}`;
+                printLog(`Injecting MSN: Membuka Artikel [${botState.currentMsn}/${tarMsn}]`);
+
+                let min = parseInt(document.getElementById('msnMin').value);
+                let max = parseInt(document.getElementById('msnMax').value);
+                let waitTime = Math.floor(Math.random() * (max - min + 1) + min) * 1000;
+
+                printLog(`Menunggu jeda organik: ${waitTime/1000}s...`);
+                setTimeout(() => {
+                    // Pindah Halaman Nyata ke MSN News
+                    window.location.href = "https://www.msn.com/id-id/berita";
+                }, waitTime);
+            }
+
+            // 2. Eksekusi Segmen Bing Search
+            else if (botState.activeMode === 'search') {
+                if (botState.currentSearch >= tarSrc || !searchOn) {
+                    printLog("Semua rantai injeksi SUKSES dilakukan!");
+                    resetBotEngine();
+                    return;
+                }
+
+                botState.currentSearch++;
+                saveState();
+                document.getElementById('searchProgress').innerText = `${botState.currentSearch}/${tarSrc}`;
+                
+                let randomKw = triggerKeywords[Math.floor(Math.random() * triggerKeywords.length)] + " " + Math.floor(Math.random() * 500);
+                printLog(`Injecting Bing: Mencari kueri "${randomKw}" [${botState.currentSearch}/${tarSrc}]`);
+
+                let min = parseInt(document.getElementById('searchMin').value);
+                let max = parseInt(document.getElementById('searchMax').value);
+                let waitTime = Math.floor(Math.random() * (max - min + 1) + min) * 1000;
+
+                printLog(`Menunggu jeda organik: ${waitTime/1000}s...`);
+                setTimeout(() => {
+                    // Pindah Halaman Nyata ke Pencarian Bing untuk trigger Poin Rewards
+                    window.location.href = `https://www.bing.com/search?q=${encodeURIComponent(randomKw)}`;
+                }, waitTime);
+            }
+        }
+
+        // Reset Total (Tombol REBOOT)
+        document.getElementById('btnReboot').addEventListener('click', function() {
+            botState = { running: false, currentMsn: 0, currentSearch: 0, activeMode: 'none' };
+            saveState();
+            
+            document.getElementById('msnProgress').innerText = `0/${document.getElementById('msnTarget').value}`;
+            document.getElementById('searchProgress').innerText = `0/${document.getElementById('searchTarget').value}`;
+            
+            btnGas.innerText = "GAS KEUN";
+            btnGas.style.opacity = '1';
+            
+            consoleEl.innerHTML = '';
+            printLog("Sistem Berhasil Direset ke Posisi 0.");
+        });
+
+        function resetBotEngine() {
+            botState.running = false;
+            botState.activeMode = 'none';
+            saveState();
+            btnGas.innerText = "GAS KEUN";
+            btnGas.style.opacity = '1';
+        }
+      function clickFirstArticle() {
+    // Cari elemen link artikel pertama (sesuaikan selector dengan struktur MSN/Bing)
+    const links = document.querySelectorAll('a[href*="/berita/"], a[href*="/search/"]');
+    if (links.length > 0) {
+        console.log("Menemukan artikel, masuk ke dalam...");
+        links[0].click(); // Klik link pertama yang ketemu
+    } else {
+        console.log("Link tidak ditemukan, refresh...");
+        window.location.reload();
     }
-</script>
+}
+    </script>
 </body>
 </html>
