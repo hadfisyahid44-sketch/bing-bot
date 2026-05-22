@@ -264,17 +264,7 @@
             btnGas.innerText = "GAS KEUN";
             btnGas.style.opacity = '1';
         }
-      function clickFirstArticle() {
-    // Cari elemen link artikel pertama (sesuaikan selector dengan struktur MSN/Bing)
-    const links = document.querySelectorAll('a[href*="/berita/"], a[href*="/search/"]');
-    if (links.length > 0) {
-        console.log("Menemukan artikel, masuk ke dalam...");
-        links[0].click(); // Klik link pertama yang ketemu
-    } else {
-        console.log("Link tidak ditemukan, refresh...");
-        window.location.reload();
-    }
-}
+      
     </script>
 </body>
 </html>
