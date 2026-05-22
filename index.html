@@ -1,110 +1,575 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bing Rewards Bot Portal</title>
+    <title>HADFI PRO - Gateway</title>
     <style>
+        /* --- DESIGN SYSTEM NEON FUTURISTIK --- */
+        :root {
+            --bg-color: #050814;
+            --card-bg: #0b1126;
+            --neon-cyan: #00f3ff;
+            --neon-green: #39ff14;
+            --neon-purple: #bd00ff;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
         body {
-            background-color: #0a0a0a; /* Tema Gelap */
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Container Utama */
+        .wrapper {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 30px 25px;
+            border: 1px solid rgba(0, 243, 255, 0.15);
+            box-shadow: 0 0 35px rgba(0, 243, 255, 0.05), inset 0 0 20px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        /* --- SCREEN PANEL LOGIN & REGISTER --- */
+        .auth-screen {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
         }
 
-        /* Tulisan Biru Mengkilap (Glow) */
-        h1 {
-            color: #00d2ff;
-            text-shadow: 0 0 10px #00d2ff, 0 0 20px #00d2ff, 0 0 30px #00d2ff;
-            font-size: 2.5rem;
+        .auth-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .auth-header h2 {
+            color: var(--neon-purple);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(189, 0, 255, 0.6);
+            margin-bottom: 5px;
+        }
+
+        .auth-header p {
+            color: var(--neon-cyan);
+            font-size: 0.75rem;
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.4);
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(189, 0, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .auth-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
+        }
+
+        .message-box {
+            font-size: 0.75rem;
+            margin-top: -8px;
+            margin-bottom: 15px;
+            display: none;
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+        .error-style { color: #ef4444; }
+        .success-style { color: var(--neon-green); }
+
+        .switch-auth-link {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 15px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .switch-auth-link:hover { color: var(--neon-cyan); }
+
+        /* --- SCREEN PANEL BOT (HIDDEN BY DEFAULT) --- */
+        #botScreen {
+            display: none;
+        }
+
+        header h1 {
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-align: center;
+            margin: 5px 0 25px 0;
+        }
+
+        /* Logo Bing Custom */
+        .bing-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .bing-icon {
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, #0078d4, var(--neon-cyan));
+            clip-path: polygon(0% 0%, 75% 0%, 100% 30%, 40% 65%, 100% 65%, 75% 100%, 0% 100%, 30% 50%);
+            filter: drop-shadow(0 0 5px var(--neon-cyan));
+        }
+
+        /* Modul Pengaturan */
+        .card-module {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #111827;
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.3s;
+        }
+        .slider::before {
+            content: ""; position: absolute;
+            height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: #4b5563;
+            border-radius: 50%; transition: 0.3s;
+        }
+        input:checked + .slider { border-color: var(--neon-green); }
+        input:checked + .slider::before {
+            background-color: var(--neon-green);
+            transform: translateX(22px);
+            box-shadow: 0 0 8px var(--neon-green);
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
             margin-bottom: 10px;
         }
+        .setting-row:last-child { margin-bottom: 0; }
 
-        /* Teks Bing Rewards Warna-Warni Gerak */
-        .bing-rewards {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow 3s linear infinite;
-            margin-bottom: 30px;
-        }
-
-        @keyframes rainbow {
-            to { background-position: 200% auto; }
-        }
-
-        /* Tombol Sakti */
-        .btn-bot {
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.7);
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none; /* Agar tidak ada garis bawah link */
-        }
-
-        .btn-bot:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(0, 210, 255, 1);
-        }
-        
-        /* Instruksi Sederhana */
-        .instr {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-top: 20px;
+        .num-input {
+            background: #111827;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 5px;
+            width: 65px;
             text-align: center;
-            max-width: 300px;
+            border-radius: 6px;
+            outline: none;
+        }
+        .num-input:focus { border-color: var(--neon-cyan); }
+
+        /* Terminal Console */
+        .terminal-box {
+            background: #02040a;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            height: 110px;
+            overflow-y: auto;
+            font-size: 0.7rem;
+            color: #34d399;
+            margin-bottom: 15px;
+        }
+
+        /* Tombol */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 1px;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, var(--neon-purple), #9d4edd);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(189, 0, 255, 0.4);
+        }
+        .btn-action {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+            margin-bottom: 8px;
+        }
+        .btn-reboot {
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
         }
     </style>
 </head>
 <body>
 
-    <h1>BOT PORTAL</h1>
-    <div class="bing-rewards">BING REWARDS</div>
-
-    <a href="javascript:(function(){
-        const keywords = ['berita terkini', 'cuaca hari ini', 'teknologi 2026', 'tips kesehatan', 'kuliner enak', 'wisata alam', 'info gadget', 'bursa saham'];
-        let count = 0;
-        const target = 10; // Jumlah search
-
-        function doSearch() {
-            if (count < target) {
-                let query = keywords[Math.floor(Math.random() * keywords.length)];
-                window.location.href = 'https://www.bing.com/search?q=' + encodeURIComponent(query);
-                count++;
-                
-                // Jeda acak antara 3-7 detik
-                let delay = Math.floor(Math.random() * (7000 - 3000) + 3000);
-                setTimeout(doSearch, delay);
-            } else {
-                alert('Misi selesai!');
-            }
-        }
+    <div class="wrapper">
         
-        // Mulai pencarian
-        doSearch();
-    })();" class="btn-bot">JALANKAN MISI</a>
+        <div id="loginScreen" class="auth-screen">
+            <div class="auth-header">
+                <h2>ACCESS BING REWARDS</h2>
+                <p>Bismillah Dulu Biar Berkah</p>
+            </div>
+            
+            <div class="input-group">
+                <label>OPERATOR USERNAME</label>
+                <input type="text" id="loginUser" class="auth-input" placeholder="Username..." autocomplete="off">
+            </div>
 
-    <div class="instr">
-        Instruksi: <br>
-        1. Login ke akun Microsoft di browser. <br>
-        2. Klik tombol di atas, bot akan berjalan otomatis di tab ini.
+            <div class="input-group">
+                <label>ACCESS CODE (PASSWORD)</label>
+                <input type="password" id="loginPass" class="auth-input" placeholder="Password...">
+            </div>
+
+            <div class="message-box error-style" id="loginError">ACCESS DENIED: Data salah!</div>
+
+            <button class="btn btn-primary" id="btnLogin">INITIALIZE LOGIN</button>
+            <div class="switch-auth-link" id="toRegister">Belum punya akun? Daftar di sini</div>
+        </div>
+
+        <div id="registerScreen" class="auth-screen" style="display: none;">
+            <div class="auth-header">
+                <h2>CREATE OPERATOR</h2>
+                <p>NEW ACCESS BING REWARDS ACCOUNT</p>
+            </div>
+            
+            <div class="input-group">
+                <label>NEW USERNAME</label>
+                <input type="text" id="regUser" class="auth-input" placeholder="Buat username..." autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label>NEW ACCESS CODE (PASSWORD)</label>
+                <input type="password" id="regPass" class="auth-input" placeholder="Buat password...">
+            </div>
+
+            <div class="message-box" id="regMessage"></div>
+
+            <button class="btn btn-primary" id="btnRegister">REGISTER ACCOUNT</button>
+            <div class="switch-auth-link" id="toLogin">Sudah punya akun? Login di sini</div>
+        </div>
+
+        <div id="botScreen">
+            <div class="bing-logo">
+                <div class="bing-icon"></div>
+                <span style="font-weight: bold; font-size: 1rem; letter-spacing: 1px;">BING SYSTEM</span>
+            </div>
+
+            <header>
+                <h1>Panen BING</h1>
+                <p>Istiqomah Atuh</p>
+            </header>
+
+            <div class="card-module">
+                <div class="module-header">
+                    <span style="font-size: 0.85rem; font-weight: bold;">MSN INJECTION</span>
+                    <label class="switch">
+                        <input type="checkbox" id="msnToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span style="color: #6b7280;">TARGET READ</span>
+                    <div>
+                        <input type="number" class="num-input" id="msnTarget" value="10">
+                        <span style="color: var(--neon-green); margin-left: 5px;" id="msnProgress">0/10</span>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <span style="color: #6b7280;">DELAY (MIN/MAX)</span>
+                    <div>
+                        <input type="number" class="num-input" id="msnMin" value="5" style="width:45px;">
+                        <input type="number" class="num-input" id="msnMax" value="10" style="width:45px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-module">
+                <div class="module-header">
+                    <span style="font-size: 0.85rem; font-weight: bold;">SEARCH INJECTION</span>
+                    <label class="switch">
+                        <input type="checkbox" id="searchToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span style="color: #6b7280;">TARGET QUERY</span>
+                    <div>
+                        <input type="number" class="num-input" id="searchTarget" value="20">
+                        <span style="color: var(--neon-green); margin-left: 5px;" id="searchProgress">0/20</span>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <span style="color: #6b7280;">DELAY (MIN/MAX)</span>
+                    <div>
+                        <input type="number" class="num-input" id="searchMin" value="7" style="width:45px;">
+                        <input type="number" class="num-input" id="searchMax" value="12" style="width:45px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="terminal-box" id="logConsole"></div>
+
+            <button class="btn btn-action" id="btnGas">GAS KEUN</button>
+            <button class="btn btn-reboot" id="btnReboot">REBOOT SYSTEM</button>
+        </div>
+
     </div>
 
+    <script>
+        // Inisialisasi Database Akun di LocalStorage browser agar tidak hilang saat di-refresh
+        if (!localStorage.getItem('userDB')) {
+            // Akun default awal jika database masih kosong
+            const defaultDB = [
+                { user: "hadfi", pass: "123" }
+            ];
+            localStorage.setItem('userDB', JSON.stringify(defaultDB));
+        }
+
+        // Navigasi Antara Screen Login & Register
+        document.getElementById('toRegister').addEventListener('click', () => {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('registerScreen').style.display = 'flex';
+        });
+
+        document.getElementById('toLogin').addEventListener('click', () => {
+            document.getElementById('registerScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+        });
+
+        // ---- LOGIC PROSES REGISTER (DAFTAR) ----
+        document.getElementById('btnRegister').addEventListener('click', function() {
+            const regUser = document.getElementById('regUser').value.trim().toLowerCase();
+            const regPass = document.getElementById('regPass').value;
+            const msgBox = document.getElementById('regMessage');
+
+            if (regUser === "" || regPass === "") {
+                msgBox.className = "message-box error-style";
+                msgBox.innerText = "ERROR: Input tidak boleh kosong!";
+                msgBox.style.display = "block";
+                return;
+            }
+
+            let currentDB = JSON.parse(localStorage.getItem('userDB'));
+            
+            // Cek apakah username sudah terdaftar
+            const isExist = currentDB.some(account => account.user === regUser);
+            if (isExist) {
+                msgBox.className = "message-box error-style";
+                msgBox.innerText = "ERROR: Username sudah digunakan!";
+                msgBox.style.display = "block";
+                return;
+            }
+
+            // Simpan akun baru ke LocalStorage
+            currentDB.push({ user: regUser, pass: regPass });
+            localStorage.setItem('userDB', JSON.stringify(currentDB));
+
+            msgBox.className = "message-box success-style";
+            msgBox.innerText = "SUCCESS: Operator berhasil didaftarkan!";
+            msgBox.style.display = "block";
+
+            // Reset Form dan lempar ke halaman login setelah 1.5 detik
+            setTimeout(() => {
+                document.getElementById('regUser').value = "";
+                document.getElementById('regPass').value = "";
+                msgBox.style.display = "none";
+                document.getElementById('registerScreen').style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'flex';
+            }, 1500);
+        });
+
+
+        // ---- LOGIC PROSES LOGIN ----
+        let loggedInUser = "";
+        document.getElementById('btnLogin').addEventListener('click', function() {
+            const userIn = document.getElementById('loginUser').value.trim().toLowerCase();
+            const passIn = document.getElementById('loginPass').value;
+            const errorDiv = document.getElementById('loginError');
+
+            let currentDB = JSON.parse(localStorage.getItem('userDB'));
+            
+            // Validasi kecocokan data di database lokal
+            const validAccount = currentDB.find(account => account.user === userIn && account.pass === passIn);
+
+            if (validAccount) {
+                loggedInUser = userIn.toUpperCase();
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('botScreen').style.display = 'block';
+                initBotTerminal();
+            } else {
+                errorDiv.style.display = 'block';
+                setTimeout(() => { errorDiv.style.display = 'none'; }, 3000);
+            }
+        });
+
+
+        // ---- LOGIC AUTOMATION BOT ----
+        const consoleEl = document.getElementById('logConsole');
+        let isRunning = false;
+        let loopTimeout;
+
+        function printLog(text) {
+            const entry = document.createElement('div');
+            entry.style.marginBottom = '3px';
+            entry.innerHTML = `<span style="color:var(--neon-cyan)">></span> ${text}`;
+            consoleEl.appendChild(entry);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        function initBotTerminal() {
+            consoleEl.innerHTML = '';
+            printLog("Jangan Lupa Do'ain Hadfi...");
+            setTimeout(() => printLog("Menghubungkan ke API Bing Core..."), 400);
+            setTimeout(() => printLog(`Akses Diberikan. Welcome, Operator ${loggedInUser}.`), 900);
+        }
+
+        // Tombol GAS KEUN
+        document.getElementById('btnGas').addEventListener('click', function() {
+            if (isRunning) return;
+
+            const msnOn = document.getElementById('msnToggle').checked;
+            const searchOn = document.getElementById('searchToggle').checked;
+
+            if (!msnOn && !searchOn) {
+                printLog("Pilih modul target terlebih dahulu!");
+                return;
+            }
+
+            isRunning = true;
+            this.innerText = "EXECUTING...";
+            this.style.opacity = '0.6';
+
+            startInjectionChain(msnOn, searchOn);
+        });
+
+        function startInjectionChain(msnOn, searchOn) {
+            let curMsn = 0, tarMsn = parseInt(document.getElementById('msnTarget').value);
+            let curSrc = 0, tarSrc = parseInt(document.getElementById('searchTarget').value);
+
+            function runMsnLoop() {
+                if (!isRunning) return;
+                if (!msnOn || curMsn >= tarMsn) {
+                    printLog("Siklus MSN Selesai.");
+                    runSearchLoop();
+                    return;
+                }
+                curMsn++;
+                document.getElementById('msnProgress').innerText = `${curMsn}/${tarMsn}`;
+                printLog(`Injecting MSN: Membaca Artikel [${curMsn}]`);
+
+                let min = parseInt(document.getElementById('msnMin').value);
+                let max = parseInt(document.getElementById('msnMax').value);
+                let wait = Math.floor(Math.random() * (max - min + 1) + min) * 1000;
+
+                loopTimeout = setTimeout(runMsnLoop, wait);
+            }
+
+            function runSearchLoop() {
+                if (!isRunning) return;
+                if (!searchOn || curSrc >= tarSrc) {
+                    printLog("Semua rantai injeksi sukses dilakukan!");
+                    resetSystemUI();
+                    return;
+                }
+                curSrc++;
+                document.getElementById('searchProgress').innerText = `${curSrc}/${tarSrc}`;
+                
+                let keywords = ["tech trends", "future science", "ai integration", "web development", "automation scripts"];
+                let kw = keywords[Math.floor(Math.random() * keywords.length)] + " " + Math.floor(Math.random()*100);
+                
+                printLog(`Injecting Bing: Mencari kueri "${kw}"`);
+
+                let min = parseInt(document.getElementById('searchMin').value);
+                let max = parseInt(document.getElementById('searchMax').value);
+                let wait = Math.floor(Math.random() * (max - min + 1) + min) * 1000;
+
+                loopTimeout = setTimeout(runSearchLoop, wait);
+            }
+
+            runMsnLoop();
+        }
+
+        // Tombol REBOOT
+        document.getElementById('btnReboot').addEventListener('click', function() {
+            clearTimeout(loopTimeout);
+            resetSystemUI();
+            initBotTerminal();
+            document.getElementById('msnProgress').innerText = `0/${document.getElementById('msnTarget').value}`;
+            document.getElementById('searchProgress').innerText = `0/${document.getElementById('searchTarget').value}`;
+            printLog("Sistem Berhasil Direset.");
+        });
+
+        function resetSystemUI() {
+            isRunning = false;
+            const btn = document.getElementById('btnGas');
+            btn.innerText = "GAS KEUN";
+            btn.style.opacity = '1';
+        }
+    </script>
 </body>
 </html>
