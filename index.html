@@ -1,270 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HADFI PRO - Real Injector</title>
+    <title>SAIFOELFUL PRO CLONE</title>
     <style>
-        /* --- DESIGN SYSTEM NEON FUTURISTIK --- */
         :root {
-            --bg-color: #050814;
-            --card-bg: #0b1126;
-            --neon-cyan: #00f3ff;
-            --neon-green: #39ff14;
-            --neon-purple: #bd00ff;
-            --text-muted: #4b5563;
+            --bg-dark: #111827;
+            --card-bg: #1f2937;
+            --neon-green: #10b981;
+            --text-main: #f3f4f6;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
-        body { background-color: var(--bg-color); color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .wrapper { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 24px; padding: 30px 25px; border: 1px solid rgba(0, 243, 255, 0.15); box-shadow: 0 0 35px rgba(0, 243, 255, 0.05), inset 0 0 20px rgba(0, 0, 0, 0.6); }
-        .bing-logo { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; gap: 10px; }
-        .bing-icon { width: 25px; height: 25px; background: linear-gradient(135deg, #0078d4, var(--neon-cyan)); clip-path: polygon(0% 0%, 75% 0%, 100% 30%, 40% 65%, 100% 65%, 75% 100%, 0% 100%, 30% 50%); filter: drop-shadow(0 0 5px var(--neon-cyan)); }
-        header h1 { color: var(--neon-cyan); font-size: 1.5rem; text-align: center; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.6); }
-        header p { color: var(--text-muted); font-size: 0.75rem; text-align: center; margin: 5px 0 25px 0; }
-        .card-module { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 15px; margin-bottom: 15px; }
-        .module-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .switch { position: relative; display: inline-block; width: 44px; height: 22px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #111827; border-radius: 22px; border: 1px solid rgba(255,255,255,0.08); transition: 0.3s; }
-        .slider::before { content: ""; position: absolute; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: #4b5563; border-radius: 50%; transition: 0.3s; }
-        input:checked + .slider { border-color: var(--neon-green); }
-        input:checked + .slider::before { background-color: var(--neon-green); transform: translateX(22px); box-shadow: 0 0 8px var(--neon-green); }
-        .setting-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 10px; }
-        .num-input { background: #111827; border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 5px; width: 65px; text-align: center; border-radius: 6px; outline: none; }
-        .terminal-box { background: #02040a; border: 1px solid rgba(0, 243, 255, 0.1); border-radius: 12px; padding: 12px; height: 110px; overflow-y: auto; font-size: 0.7rem; color: #34d399; margin-bottom: 15px; }
-        .btn { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: 0.2s; letter-spacing: 1px; }
-        .btn-action { background: var(--neon-green); color: #000; box-shadow: 0 0 15px rgba(57, 255, 20, 0.3); margin-bottom: 8px; }
-        .btn-reboot { background: transparent; border: 1px solid #ef4444; color: #ef4444; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-main);
+            overflow: hidden;
+        }
+
+        /* Pembungkus Layar Utama (Dashboard UI) */
+        #dashboard-ui {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin: 10px 0;
+            font-size: 22px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .sub-header {
+            text-align: center;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .panel-box {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #374151;
+        }
+
+        .panel-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .panel-row label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-box {
+            width: 80px;
+            padding: 6px;
+            background: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+            color: #fff;
+            text-align: center;
+            outline: none;
+        }
+
+        .delay-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .delay-box {
+            width: 45px;
+            padding: 6px;
+            background: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .btn-green {
+            width: 100%;
+            padding: 15px;
+            background: var(--neon-green);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: auto;
+        }
+
+        #logger-box {
+            background: #030712;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #34d399;
+            height: 100px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border: 1px solid #1f2937;
+            white-space: pre-wrap;
+        }
+
+        /* LAYAR UTAMA PENJEBOL ARTIKEL (IFRAME FULLSCREEN) */
+        #content-viewer {
+            display: none;
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            background: white;
+        }
+
+        /* Tombol melayang untuk balik ke menu dashboard */
+        #back-btn {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <div class="bing-logo">
-            <div class="bing-icon"></div>
-            <span style="font-weight: bold; font-size: 1rem; letter-spacing: 1px;">ACCESS BING REWARDS</span>
+<iframe id="content-viewer"></iframe>
+<button id="back-btn" onclick="stopSistem()">REBOOT 🔄</button>
+
+<div id="dashboard-ui">
+    <h2>SAIFOELFUL PRO</h2>
+    <div class="sub-header">JANGAN LUPA BERSYUKUR</div>
+
+    <div class="panel-box">
+        <div class="panel-row">
+            <label>MSN</label>
+            <input type="checkbox" id="msnSwitch" checked>
         </div>
-
-        <header>
-            <h1>HADFI PRO v3</h1>
-            <p>Jangan Lupa Bersyukur</p>
-        </header>
-
-        <div class="card-module">
-            <div class="module-header">
-                <span style="font-size: 0.85rem; font-weight: bold;">MSN INJECTION</span>
-                <label class="switch">
-                    <input type="checkbox" id="msnToggle" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <div class="setting-row">
-                <span style="color: #6b7280;">TARGET READ</span>
-                <div>
-                    <input type="number" class="num-input" id="msnTarget" value="10">
-                    <span style="color: var(--neon-green); margin-left: 5px;" id="msnProgress">0/10</span>
-                </div>
-            </div>
-            <div class="setting-row">
-                <span style="color: #6b7280;">DELAY (MIN/MAX)</span>
-                <div>
-                    <input type="number" class="num-input" id="msnMin" value="5" style="width:45px;">
-                    <input type="number" class="num-input" id="msnMax" value="10" style="width:45px;">
-                </div>
+        <div class="panel-row">
+            <span>TARGET:</span>
+            <input type="number" id="mTarget" class="input-box" value="10">
+        </div>
+        <div class="panel-row">
+            <span>DELAY(S):</span>
+            <div class="delay-group">
+                <input type="number" id="mMin" class="delay-box" value="5">
+                <input type="number" id="mMax" class="delay-box" value="12">
             </div>
         </div>
-
-        <div class="card-module">
-            <div class="module-header">
-                <span style="font-size: 0.85rem; font-weight: bold;">SEARCH INJECTION</span>
-                <label class="switch">
-                    <input type="checkbox" id="searchToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <div class="setting-row">
-                <span style="color: #6b7280;">TARGET QUERY</span>
-                <div>
-                    <input type="number" class="num-input" id="searchTarget" value="20">
-                    <span style="color: var(--neon-green); margin-left: 5px;" id="searchProgress">0/20</span>
-                </div>
-            </div>
-            <div class="setting-row">
-                <span style="color: #6b7280;">DELAY (MIN/MAX)</span>
-                <div>
-                    <input type="number" class="num-input" id="searchMin" value="7" style="width:45px;">
-                    <input type="number" class="num-input" id="searchMax" value="12" style="width:45px;">
-                </div>
-            </div>
-        </div>
-
-        <div class="terminal-box" id="logConsole"></div>
-
-        <button class="btn btn-action" id="btnGas">GAS KEUN</button>
-        <button class="btn btn-reboot" id="btnReboot">REBOOT SYSTEM</button>
     </div>
 
-    <script>
-        const consoleEl = document.getElementById('logConsole');
-        const btnGas = document.getElementById('btnGas');
-        
-        // Kumpulan Keyword Acak Indonesia - Inggris
-        const triggerKeywords = ["manajemen kuliah", "tren teknologi 2026", "coding dashboard js", "anime streaming terbaik", "cloud computing gratis", "resep kopi susu", "berita bola hari ini", "harga elektronik terupdate"];
+    <div class="panel-box">
+        <div class="panel-row">
+            <label>SEARCH</label>
+            <input type="checkbox" id="searchSwitch" checked>
+        </div>
+        <div class="panel-row">
+            <span>TARGET:</span>
+            <input type="number" id="sTarget" class="input-box" value="20">
+        </div>
+        <div class="panel-row">
+            <span>DELAY(S):</span>
+            <div class="delay-group">
+                <input type="number" id="sMin" class="delay-box" value="7">
+                <input type="number" id="sMax" class="delay-box" value="12">
+            </div>
+        </div>
+    </div>
 
-        function printLog(text) {
-            const entry = document.createElement('div');
-            entry.style.marginBottom = '3px';
-            entry.innerHTML = `<span style="color:var(--neon-cyan)">></span> ${text}`;
-            consoleEl.appendChild(entry);
-            consoleEl.scrollTop = consoleEl.scrollHeight;
-        }
+    <div id="logger-box">> Authenticating...<br>> Access Granted. Welcome, Saiful.</div>
 
-        // Ambil data state atau buat baru di LocalStorage jika belum ada
-        let botState = JSON.parse(localStorage.getItem('hadfi_bot_state')) || {
-            running: false,
-            currentMsn: 0,
-            currentSearch: 0,
-            activeMode: 'none' // 'msn', 'search', atau 'none'
-        };
+    <button class="btn-green" id="btnGas" onclick="mulaiSistem()">GAS KEUN</button>
+</div>
 
-        // Fungsi menyimpan state terupdate
-        function saveState() {
-            localStorage.setItem('hadfi_bot_state', JSON.stringify(botState));
-        }
+<script>
+    const keywords = ["berita hari ini", "wisata indonesia", "resep masakan", "gadget terbaru", "harga emas hari ini", "tips kesehatan", "otomotif update", "saham unggulan", "cuaca hari ini", "prediksi bola"];
+    
+    // Basis artikel internal MSN Indonesia asli yang valid & bisa di-render di dalam app
+    const msnLinks = [
+        "https://www.msn.com/id-id/berita/nasional",
+        "https://www.msn.com/id-id/berita/teknologi-dan-sains",
+        "https://www.msn.com/id-id/entertainment/celebrity",
+        "https://www.msn.com/id-id/berita/dunia",
+        "https://www.msn.com/id-id/olahraga/sepakbola",
+        "https://www.msn.com/id-id/ekonomi/bisnis"
+    ];
 
-        // Render data awal ke UI dari LocalStorage
-        document.getElementById('msnProgress').innerText = `${botState.currentMsn}/${document.getElementById('msnTarget').value}`;
-        document.getElementById('searchProgress').innerText = `${botState.currentSearch}/${document.getElementById('searchTarget').value}`;
+    let running = false;
 
-        if (botState.running) {
-            btnGas.innerText = "EXECUTING...";
-            btnGas.style.opacity = '0.6';
-        }
+    function cetakLog(teks) {
+        const lb = document.getElementById('logger-box');
+        lb.innerHTML += `<br>> ${teks}`;
+        lb.scrollTop = lb.scrollHeight;
+    }
 
-        // Tembak Log Selamat Datang
-        printLog("Jangan Lupa Do'ain Hadfi...");
-        printLog("System Core v3 Ready.");
+    const jedaWaktu = (ms) => new Promise(res => setTimeout(res, ms));
 
-        // Cek apakah bot harus melanjutkan tugas pasca redirect/reload halaman
-        if (botState.running) {
-            printLog("Melanjutkan rantai injeksi yang tertunda...");
-            setTimeout(executeEngineChain, 2000);
-        }
+    async function mulaiSistem() {
+        running = true;
+        const msnAktif = document.getElementById('msnSwitch').checked;
+        const searchAktif = document.getElementById('searchSwitch').checked;
 
-        // Trigger Tombol GAS KEUN
-        btnGas.addEventListener('click', function() {
-            if (botState.running) return;
+        const mTarget = parseInt(document.getElementById('mTarget').value) || 0;
+        const mMin = parseInt(document.getElementById('mMin').value) || 5;
+        const mMax = parseInt(document.getElementById('mMax').value) || 12;
 
-            const msnOn = document.getElementById('msnToggle').checked;
-            const searchOn = document.getElementById('searchToggle').checked;
+        const sTarget = parseInt(document.getElementById('sTarget').value) || 0;
+        const sMin = parseInt(document.getElementById('sMin').value) || 7;
+        const sMax = parseInt(document.getElementById('sMax').value) || 12;
 
-            if (!msnOn && !searchOn) {
-                printLog("Pilih modul target terlebih dahulu!");
-                return;
-            }
+        const iframe = document.getElementById('content-viewer');
+        const backBtn = document.getElementById('back-btn');
 
-            botState.running = true;
-            this.innerText = "EXECUTING...";
-            this.style.opacity = '0.6';
-            
-            // Tentukan mulai dari mana
-            if (msnOn && botState.currentMsn < parseInt(document.getElementById('msnTarget').value)) {
-                botState.activeMode = 'msn';
-            } else if (searchOn && botState.currentSearch < parseInt(document.getElementById('searchTarget').value)) {
-                botState.activeMode = 'search';
-            }
-            
-            saveState();
-            executeEngineChain();
-        });
+        // === EKSEKUSI PROSES 1: MSN AUTO READ (SAMA PERSIS KAYAK DI VIDEO) ===
+        if (msnAktif && mTarget > 0) {
+            // Tampilkan elemen pengunci layar artikel
+            iframe.style.display = "block";
+            backBtn.style.display = "block";
 
-        // Core Engine Alur Kerja Eksekusi Nyata
-        function executeEngineChain() {
-            if (!botState.running) return;
-
-            const msnOn = document.getElementById('msnToggle').checked;
-            const searchOn = document.getElementById('searchToggle').checked;
-            
-            const tarMsn = parseInt(document.getElementById('msnTarget').value);
-            const tarSrc = parseInt(document.getElementById('searchTarget').value);
-
-            // 1. Eksekusi Segmen MSN
-            if (botState.activeMode === 'msn') {
-                if (botState.currentMsn >= tarMsn || !msnOn) {
-                    printLog("Siklus MSN Selesai. Pindah ke Search.");
-                    botState.activeMode = 'search';
-                    saveState();
-                    executeEngineChain();
-                    return;
-                }
-
-                botState.currentMsn++;
-                saveState();
-                document.getElementById('msnProgress').innerText = `${botState.currentMsn}/${tarMsn}`;
-                printLog(`Injecting MSN: Membuka Artikel [${botState.currentMsn}/${tarMsn}]`);
-
-                let min = parseInt(document.getElementById('msnMin').value);
-                let max = parseInt(document.getElementById('msnMax').value);
-                let waitTime = Math.floor(Math.random() * (max - min + 1) + min) * 1000;
-
-                printLog(`Menunggu jeda organik: ${waitTime/1000}s...`);
-                setTimeout(() => {
-                    // Pindah Halaman Nyata ke MSN News
-                    window.location.href = "https://www.msn.com/id-id/berita";
-                }, waitTime);
-            }
-
-            // 2. Eksekusi Segmen Bing Search
-            else if (botState.activeMode === 'search') {
-                if (botState.currentSearch >= tarSrc || !searchOn) {
-                    printLog("Semua rantai injeksi SUKSES dilakukan!");
-                    resetBotEngine();
-                    return;
-                }
-
-                botState.currentSearch++;
-                saveState();
-                document.getElementById('searchProgress').innerText = `${botState.currentSearch}/${tarSrc}`;
+            for (let i = 0; i < mTarget; i++) {
+                if (!running) break;
                 
-                let randomKw = triggerKeywords[Math.floor(Math.random() * triggerKeywords.length)] + " " + Math.floor(Math.random() * 500);
-                printLog(`Injecting Bing: Mencari kueri "${randomKw}" [${botState.currentSearch}/${tarSrc}]`);
+                // Pilih halaman internal berita harian msn secara acak
+                const targetUrl = msnLinks[i % msnLinks.length] + "?p=" + Math.floor(Math.random() * 999);
+                
+                cetakLog(`MSN: Opening Article ${i + 1}/${mTarget}`);
+                
+                // Suntik halaman masuk ke dalam frame aplikasi secara full screen
+                iframe.src = targetUrl;
 
-                let min = parseInt(document.getElementById('searchMin').value);
-                let max = parseInt(document.getElementById('searchMax').value);
-                let waitTime = Math.floor(Math.random() * (max - min + 1) + min) * 1000;
-
-                printLog(`Menunggu jeda organik: ${waitTime/1000}s...`);
-                setTimeout(() => {
-                    // Pindah Halaman Nyata ke Pencarian Bing untuk trigger Poin Rewards
-                    window.location.href = `https://www.bing.com/search?q=${encodeURIComponent(randomKw)}`;
-                }, waitTime);
+                // Hitung mundur jeda pengerjaan (Timer Countdown bawaan video)
+                const hitungJeda = Math.floor(Math.random() * (mMax - mMin + 1) + mMin);
+                for (let j = hitungJeda; j > 0; j--) {
+                    if (!running) break;
+                    cetakLog(`Processing... sisa ${j}s`);
+                    await jedaWaktu(1000);
+                }
             }
+            
+            // Sembunyikan frame setelah sesi MSN beres
+            iframe.style.display = "none";
+            backBtn.style.display = "none";
         }
 
-        // Reset Total (Tombol REBOOT)
-        document.getElementById('btnReboot').addEventListener('click', function() {
-            botState = { running: false, currentMsn: 0, currentSearch: 0, activeMode: 'none' };
-            saveState();
-            
-            document.getElementById('msnProgress').innerText = `0/${document.getElementById('msnTarget').value}`;
-            document.getElementById('searchProgress').innerText = `0/${document.getElementById('searchTarget').value}`;
-            
-            btnGas.innerText = "GAS KEUN";
-            btnGas.style.opacity = '1';
-            
-            consoleEl.innerHTML = '';
-            printLog("Sistem Berhasil Direset ke Posisi 0.");
-        });
+        // === EKSEKUSI PROSES 2: SEARCH BING AUTO ===
+        if (searchAktif && sTarget > 0 && running) {
+            iframe.style.display = "block";
+            backBtn.style.display = "block";
 
-        function resetBotEngine() {
-            botState.running = false;
-            botState.activeMode = 'none';
-            saveState();
-            btnGas.innerText = "GAS KEUN";
-            btnGas.style.opacity = '1';
+            for (let i = 0; i < sTarget; i++) {
+                if (!running) break;
+
+                const kataKunci = keywords[Math.floor(Math.random() * keywords.length)] + " " + Math.floor(Math.random() * 100);
+                const urlSearch = `https://www.bing.com/search?q=${encodeURIComponent(kataKunci)}`;
+
+                cetakLog(`SEARCH: Processing ${i + 1}/${sTarget} -> "${kataKunci}"`);
+                iframe.src = urlSearch;
+
+                const hitungJeda = Math.floor(Math.random() * (sMax - sMin + 1) + sMin);
+                for (let j = hitungJeda; j > 0; j--) {
+                    if (!running) break;
+                    cetakLog(`Processing... sisa ${j}s`);
+                    await jedaWaktu(1000);
+                }
+            }
+
+            iframe.style.display = "none";
+            backBtn.style.display = "none";
         }
-      
-    </script>
+
+        cetakLog("Proses Selesai Total!");
+        running = false;
+    }
+
+    function stopSistem() {
+        running = false;
+        document.getElementById('content-viewer').style.display = "none";
+        document.getElementById('back-btn').style.display = "none";
+        cetakLog("Sistem Direboot / Diberhentikan Paksa.");
+    }
+</script>
+
 </body>
 </html>
